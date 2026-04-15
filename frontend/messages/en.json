@@ -1,0 +1,90 @@
+{
+  "Header": {
+    "tagline": "Dynamic price token"
+  },
+  "ContractStats": {
+    "floor": "Floor",
+    "ceiling": "Ceiling",
+    "middle": "Middle price",
+    "unit": "ETH / G50",
+    "spread": "5% spread",
+    "ethReserve": "ETH reserve",
+    "totalSupply": "Total supply",
+    "nextUpdate": "Next update",
+    "block": "Block",
+    "now": "now",
+    "blocks": "blocks"
+  },
+  "UserPosition": {
+    "title": "Your position",
+    "reset": "Reset",
+    "resetTitle": "Reset cost basis",
+    "balance": "Balance",
+    "valueAtFloor": "Value at floor",
+    "floorPrice": "Floor price",
+    "totalBought": "Total bought",
+    "totalSold": "Total sold",
+    "netInvested": "Net invested",
+    "unrealisedPnl": "Unrealised P&L",
+    "pnlAfterBuy": "P&L tracked after first buy."
+  },
+  "TradePanel": {
+    "buy": "Buy",
+    "sell": "Sell",
+    "balance": "Balance",
+    "max": "Max",
+    "ethToSpend": "ETH to spend",
+    "g50ToBuy": "G50 to buy",
+    "g50ToSell": "G50 to sell",
+    "ethToReceive": "ETH to receive",
+    "confirming": "Confirming\u2026",
+    "waitingForWallet": "Waiting for wallet\u2026",
+    "buyG50": "Buy G50",
+    "sellG50": "Sell G50",
+    "boughtG50ForEth": "Bought {g50Amount} G50 for {ethAmount} ETH",
+    "soldG50ForEth": "Sold {g50Amount} G50 for {ethAmount} ETH",
+    "connectWallet": "Connect wallet to trade",
+    "setContractAddress": "Set NEXT_PUBLIC_G50_ADDRESS in .env.local"
+  },
+  "OrderPreview": {
+    "title": "Order preview",
+    "youReceive": "You receive",
+    "nextUpdate": "Next price update",
+    "nextUpdateValue": "{value} blocks",
+    "floor": "Next floor",
+    "ceiling": "Next ceiling"
+  },
+  "BondingSimChart": {
+    "title": "Bonding curve simulator",
+    "subtitle": "How floor grows as buyers enter \u2014 early buyer P&L",
+    "afterBuyers": "after {numBuyers} buyers",
+    "ethPerBuyer": "ETH per buyer",
+    "ethUnit": "ETH",
+    "numberOfBuyers": "Number of buyers",
+    "buyersAxisLabel": "buyers",
+    "yourCost": "your cost",
+    "floorLine": "Floor",
+    "positionValueLine": "Your position value",
+    "buyFirstAt": "You buy first at",
+    "afterBuyersWorth": "After {numBuyers} buyers your position is worth",
+    "pnl": "Estimated PnL",
+    "premiumExplanation": "Each buyer\u2019s 5% entry premium stays in the contract, raising the floor for all holders.",
+    "tooltipBuyersIn": "{label} buyers in"
+  },
+  "PriceHistoryChart": {
+    "title": "Price history",
+    "subtitle": "Floor & ceiling per block update \u2014 real on-chain data",
+    "floorLegend": "Floor",
+    "ceilingLegend": "Ceiling",
+    "loading": "Loading\u2026",
+    "noUpdates": "No updates yet \u2014 floor updates every 10 blocks when a trade occurs.",
+    "tooltipBlock": "Block {block}",
+    "floorArea": "Floor",
+    "ceilingArea": "Ceiling"
+  },
+  "TxBadge": {
+    "confirming": "Confirming\u2026",
+    "confirmed": "Confirmed",
+    "pending": "Pending"
+  }
+}
