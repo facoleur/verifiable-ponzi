@@ -1,0 +1,43 @@
+# ── Foundry ──────────────────────────────────────────────────────────────────
+# Compiled artifacts
+out/
+cache/
+
+# Deployment broadcast logs (contain tx hashes & addresses — commit selectively)
+broadcast/*/31337/   # local Anvil chain ID, never useful to commit
+broadcast/**/dry-run/
+# broadcast/*/11155111/ ← uncomment to also ignore Sepolia broadcasts
+
+# Coverage / profiling outputs
+coverage/
+lcov.info
+.gas-snapshot
+
+# ── Secrets ──────────────────────────────────────────────────────────────────
+.env
+.env.*
+!.env.example        # keep the example template committed
+
+# ── Node (root Prettier tooling + frontend) ───────────────────────────────────
+node_modules/
+
+# ── Frontend (Next.js) ────────────────────────────────────────────────────────
+frontend/.next/
+frontend/out/
+frontend/node_modules/
+frontend/coverage/
+frontend/.vercel/
+frontend/.env.local
+frontend/.env.*.local
+frontend/*.tsbuildinfo
+frontend/next-env.d.ts
+
+# ── OS / editor ───────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+.claude
+.codex
+*.md
