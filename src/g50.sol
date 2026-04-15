@@ -8,7 +8,6 @@ pragma solidity ^0.8.20;
  *      based on contract ETH balance per token. Maximum ~5% downside per cycle.
  */
 contract G50 {
-    // ── ERC20 state ──────────────────────────────────────────────────────────
     string public constant NAME = "G50";
     string public constant SYMBOL = "G50";
     uint8 public constant DECIMALS = 8;
@@ -18,19 +17,16 @@ contract G50 {
     mapping(address => uint256) private _balances;
     mapping(address => mapping(address => uint256)) private _allowances;
 
-    // ── Price mechanism state ─────────────────────────────────────────────────
     uint256 public ceiling;
     uint256 public floor;
     uint256 public lastUpdate;
 
-    // ── Events ────────────────────────────────────────────────────────────────
     event Transfer(address indexed from, address indexed to, uint256 value);
     event Approval(address indexed owner, address indexed spender, uint256 value);
     event Mint(address indexed to, uint256 amount);
     event Burn(address indexed from, uint256 amount);
     event PriceUpdate(uint256 newFloor, uint256 newCeiling, uint256 blockNumber);
 
-    // ── Constructor ───────────────────────────────────────────────────────────
     constructor() {
         // ~9523 tokens per ETH to start (mirrors original G5 initialisation)
         floor = 1 ether / 10_000 / 1e8;
@@ -38,7 +34,6 @@ contract G50 {
         lastUpdate = block.number;
     }
 
-    // ── Price helpers ─────────────────────────────────────────────────────────
     function _updateCeiling() private {
         // ceiling is always 5% above floor  (floor * 21/20)
         ceiling = (floor * 21) / 20;
@@ -57,7 +52,6 @@ contract G50 {
         }
     }
 
-    // ── Buy / Sell ────────────────────────────────────────────────────────────
     receive() external payable {
         buy();
     }
@@ -98,7 +92,6 @@ contract G50 {
         require(ok, "G50: ETH transfer failed");
     }
 
-    // ── View helpers ──────────────────────────────────────────────────────────
     /// @notice Returns the current buy price (ceiling) in wei per token unit.
     function buyPrice() external view returns (uint256) {
         return ceiling;
@@ -109,7 +102,6 @@ contract G50 {
         return floor;
     }
 
-    // ── ERC20 standard ────────────────────────────────────────────────────────
     function balanceOf(address account) external view returns (uint256) {
         return _balances[account];
     }

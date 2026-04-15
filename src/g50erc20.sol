@@ -11,15 +11,12 @@ import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
  *      Maximum ~5% downside per cycle.
  */
 contract G50ERC20 is ERC20, ReentrancyGuard {
-    // ── Price mechanism state ─────────────────────────────────────────────────
     uint256 public ceiling;
     uint256 public floor;
     uint256 public lastUpdate;
 
-    // ── Events ────────────────────────────────────────────────────────────────
     event PriceUpdate(uint256 newFloor, uint256 newCeiling, uint256 blockNumber);
 
-    // ── Constructor ───────────────────────────────────────────────────────────
     constructor() ERC20("G50", "G50") {
         // 1 ETH per token at start: floor (wei per raw unit) = 1e18 / 1e8 = 1e10
         floor = 1 ether / 1e8;
@@ -32,7 +29,6 @@ contract G50ERC20 is ERC20, ReentrancyGuard {
         return 8;
     }
 
-    // ── Price helpers ─────────────────────────────────────────────────────────
     /// @notice Refreshes floor & ceiling if ≥10 blocks have passed since last update.
     function maybeUpdate() public {
         if (block.number >= lastUpdate + 10) {
@@ -46,7 +42,6 @@ contract G50ERC20 is ERC20, ReentrancyGuard {
         }
     }
 
-    // ── Buy / Sell ────────────────────────────────────────────────────────────
     receive() external payable {
         buy();
     }
@@ -77,7 +72,6 @@ contract G50ERC20 is ERC20, ReentrancyGuard {
         require(ok, "G50: ETH transfer failed");
     }
 
-    // ── View helpers ──────────────────────────────────────────────────────────
     /// @notice Returns the current buy price (ceiling) in wei per token unit.
     function buyPrice() external view returns (uint256) {
         return ceiling;
