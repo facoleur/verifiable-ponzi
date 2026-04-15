@@ -8,6 +8,8 @@ Each new buyer pays a premium above the current floor. That spread stays in the 
 
 This project is an experiment, not a financial product, investment vehicle, or viable trading tool. Interacting with it may result in total loss of funds.
 
+![app screenshot](screenshot.png)
+
 ## Project Layout
 
 - `src/`: Solidity contracts
