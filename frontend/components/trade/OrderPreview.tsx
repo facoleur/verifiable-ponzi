@@ -10,7 +10,6 @@ interface OrderPreviewProps {
   preview: OrderPreview;
   currentFloor: bigint;
   currentCeiling: bigint;
-  nextUpdate: number;
 }
 
 function EthPerTokenValue({ value }: { value: bigint }) {
@@ -47,7 +46,6 @@ export function OrderPreviewPanel({
   preview,
   currentFloor,
   currentCeiling,
-  nextUpdate,
 }: OrderPreviewProps) {
   const t = useTranslations("OrderPreview");
 

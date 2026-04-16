@@ -21,7 +21,6 @@ export interface TradePanelViewProps {
   userBalance: bigint | undefined;
   currentFloor: bigint | undefined;
   currentCeiling: bigint | undefined;
-  nextUpdate: number | undefined;
   isPending: boolean;
   isConfirming: boolean;
   isSuccess: boolean;
@@ -50,7 +49,6 @@ export function TradePanelView({
   userBalance,
   currentFloor,
   currentCeiling,
-  nextUpdate,
   isPending,
   isConfirming,
   isSuccess,
@@ -108,7 +106,7 @@ export function TradePanelView({
   }, [isConfirming, isSuccess, tradeSummary, txHash]);
 
   return (
-    <div className="rounded-xl bg-white p-1 space-y-1">
+    <div className="space-y-1 rounded-xl bg-white p-1">
       <Tabs
         value={tab}
         onValueChange={(value) => onTabChange(value as "buy" | "sell")}
@@ -123,7 +121,7 @@ export function TradePanelView({
         </TabsList>
 
         <TabsContent value={tab}>
-          <div className="space-y-1 mb-1">
+          <div className="mb-1 space-y-1">
             {tab === "buy" ? (
               <>
                 <TokenInput
@@ -191,7 +189,6 @@ export function TradePanelView({
                 preview={preview}
                 currentFloor={currentFloor}
                 currentCeiling={currentCeiling}
-                nextUpdate={nextUpdate || 0}
               />
             </div>
           )}

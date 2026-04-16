@@ -68,6 +68,16 @@
   }
 
   /* body {
+    background-color: #ffffff;
+    background-image:
+      linear-gradient(rgb(255 255 255 / 0.8), rgb(255 255 255 / 0.8)),
+      url("/bg2.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  } */
+
+  /* body {
     background-color: var(--bg);
     color: var(--text);
     font-family: var(--font-rubik), sans-serif;

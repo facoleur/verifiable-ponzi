@@ -42,8 +42,8 @@ export function TokenInput({
   const displayedUsdValue =
     usdValue != null
       ? Number(usdValue).toLocaleString("en-US", {
-          minimumFractionDigits: decimals,
-          maximumFractionDigits: decimals,
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
         })
       : null;
 
@@ -128,11 +128,11 @@ export function TokenInput({
       {/* USD equivalent */}
       <span
         className={cn(
-          "mt-1.5 text-[11px] tracking-[0.02em] transition-opacity",
+          "mt-1.5 text-xs",
           usdValue ? "opacity-100" : "opacity-0 select-none",
         )}
       >
-        <span className="text-slate-600">$</span>
+        <span className="mr-0.5 text-slate-500">$</span>
         <span className="text-slate-800">{displayedUsdValue ?? "—"}</span>
       </span>
     </div>

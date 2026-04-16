@@ -108,7 +108,7 @@ export function TradePanel({ state }: TradePanelProps) {
         queryKey: ["costBasis", address],
       });
     }
-  }, [address, isSuccess, queryClient, refetchCostBasis, state]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [address, isSuccess, queryClient, refetchCostBasis, state]);
 
   useEffect(() => {
     if (failure) setTradeError(tradeErrorMessage(failure));
@@ -189,7 +189,6 @@ export function TradePanel({ state }: TradePanelProps) {
       userBalance={state.userBalance}
       currentFloor={state.floor}
       currentCeiling={state.ceiling}
-      nextUpdate={state.blocksUntilUpdate}
       isPending={isPending}
       isConfirming={isConfirming}
       isSuccess={isSuccess}

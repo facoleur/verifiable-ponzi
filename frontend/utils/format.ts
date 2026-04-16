@@ -29,7 +29,11 @@ export function formatEthAmount(wei: bigint, precision = 4): string {
   return num.toFixed(precision).replace(/\.?0+$/, "");
 }
 
-export function formatEthValue(value: number, precision = 4): string {
+export function formatEthValue(
+  value: number | null | undefined,
+  precision = 4,
+): string {
+  if (value == null || !Number.isFinite(value)) return "—";
   if (value === 0) return "0";
   if (Math.abs(value) < 0.0000001) return value.toExponential(4);
   return value.toFixed(precision).replace(/\.?0+$/, "");

@@ -1,3 +1,4 @@
+import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
@@ -5,7 +6,6 @@ import { getLocale, getMessages } from "next-intl/server";
 import { Rubik } from "next/font/google";
 import { ClientProviders } from "./client-providers";
 import "./globals.css";
-import { Toaster } from "@/components/ui/sonner";
 
 const rubik = Rubik({
   variable: "--font-rubik",

@@ -1,9 +1,13 @@
 "use client";
 
+import { MetricCard } from "@/components/ui/metric-card";
 import { useTranslations } from "next-intl";
+import { formatEther } from "viem";
 import type { G50State } from "../../hooks/useG50State";
+import { TOKEN_UNIT } from "../../lib/constants";
 import {
   formatEthAmount,
+  formatEthValue,
   formatToken,
   weiPerUnitToEthPerToken,
 } from "../../utils/format";
@@ -13,19 +17,66 @@ interface ContractStatsProps {
   state: G50State;
 }
 
-interface MetricCardProps {
-  label: string;
-  value: string;
-  unit: string;
+interface BandTooltipProps {
+  title: string;
+  leftLabel: string;
+  leftValue: string;
+  rightLabel: string;
+  rightValue: string;
+  deltaLabel: string;
+  deltaValue: string;
+  summary: string;
 }
 
-function MetricCard({ label, value, unit }: MetricCardProps) {
+function weiPerUnitToEthPerTokenNumber(value: bigint): number {
+  return Number(formatEther(value * TOKEN_UNIT));
+}
+
+function formatPercentDelta(delta: number, base: number): string {
+  if (base === 0) return "0%";
+  const pct = (delta / base) * 100;
+  const sign = pct > 0 ? "+" : "";
+  return `${sign}${pct.toFixed(1)}%`;
+}
+
+function formatSignedEthDelta(delta: number): string {
+  const sign = delta > 0 ? "+" : "";
+  return `${sign}${formatEthValue(delta, 4)} ETH`;
+}
+
+function formatEthDeltaMagnitude(delta: number): string {
+  return `${formatEthValue(Math.abs(delta), 4)} ETH`;
+}
+
+function BandTooltip({
+  title,
+  leftLabel,
+  leftValue,
+  rightLabel,
+  rightValue,
+  deltaLabel,
+  deltaValue,
+  summary,
+}: BandTooltipProps) {
   return (
-    <div className="rounded-lg bg-slate-300/50 p-4">
-      <span className="text-xs font-medium text-slate-600">{label}</span>
-      <div className="flex items-baseline gap-1 text-base font-medium">
-        <span className="text-slate-900">{value}</span>
-        <span className="text-slate-500">{unit}</span>
+    <div className="space-y-1">
+      <div className="text-[11px] font-semibold tracking-[0.02em] text-slate-800">
+        {title}
+      </div>
+      <div className="flex items-center justify-between gap-4 text-[11px] text-slate-600">
+        <span>{leftLabel}</span>
+        <span className="font-medium text-slate-800">{leftValue}</span>
+      </div>
+      <div className="flex items-center justify-between gap-4 text-[11px] text-slate-600">
+        <span>{rightLabel}</span>
+        <span className="font-medium text-slate-800">{rightValue}</span>
+      </div>
+      <div className="flex items-center justify-between gap-4 border-t border-slate-200 pt-1 text-[11px] text-slate-600">
+        <span>{deltaLabel}</span>
+        <span className="font-medium text-slate-800">{deltaValue}</span>
+      </div>
+      <div className="text-[11px] leading-relaxed text-slate-500">
+        {summary}
       </div>
     </div>
   );
@@ -43,57 +94,67 @@ export function ContractStats({ state }: ContractStatsProps) {
     ceiling != null ? weiPerUnitToEthPerToken(ceiling) : dash;
   const reserveValue =
     contractEthBalance != null ? formatEthAmount(contractEthBalance, 6) : dash;
-  const floorNumber =
-    floor != null ? Number(weiPerUnitToEthPerToken(floor)) : null;
-  const ceilingNumber =
-    ceiling != null ? Number(weiPerUnitToEthPerToken(ceiling)) : null;
   const middleRaw =
     floor != null && ceiling != null ? (floor + ceiling) / 2n : undefined;
   const middleValue =
     middleRaw != null ? weiPerUnitToEthPerToken(middleRaw) : dash;
+  const floorNumber =
+    floor != null ? weiPerUnitToEthPerTokenNumber(floor) : undefined;
   const middleNumber =
-    floorNumber != null && ceilingNumber != null
-      ? floorNumber + (ceilingNumber - floorNumber) / 2
-      : null;
-  const hasScale = floorNumber != null && ceilingNumber != null;
-
-  const { basePosition, floorPosition, middlePosition, ceilingPosition } =
-    (() => {
-      if (
-        !hasScale ||
-        floorNumber == null ||
-        middleNumber == null ||
-        ceilingNumber == null
-      ) {
-        return {
-          basePosition: 0,
-          floorPosition: 33.33,
-          middlePosition: 66.66,
-          ceilingPosition: 100,
-        };
-      }
-
-      const minValue = Math.min(
-        basePrice,
-        floorNumber,
-        middleNumber,
-        ceilingNumber,
-      );
-      const maxValue = Math.max(
-        basePrice,
-        floorNumber,
-        middleNumber,
-        ceilingNumber,
-      );
-      const range = maxValue - minValue || 1;
-
-      return {
-        basePosition: ((basePrice - minValue) / range) * 100,
-        floorPosition: ((floorNumber - minValue) / range) * 100,
-        middlePosition: ((middleNumber - minValue) / range) * 100,
-        ceilingPosition: ((ceilingNumber - minValue) / range) * 100,
-      };
-    })();
+    middleRaw != null ? weiPerUnitToEthPerTokenNumber(middleRaw) : undefined;
+  const ceilingNumber =
+    ceiling != null ? weiPerUnitToEthPerTokenNumber(ceiling) : undefined;
+  const anchorValue = "1 ETH";
+  const floorBandTooltip =
+    floorNumber != null ? (
+      <BandTooltip
+        title={t("tooltipSellFloor")}
+        leftLabel="ETH"
+        leftValue={anchorValue}
+        rightLabel={t("floor")}
+        rightValue={`${floorValue} ETH`}
+        deltaLabel={t("tooltipAnchorDelta", {
+          value: formatSignedEthDelta(floorNumber - basePrice),
+        })}
+        deltaValue={formatPercentDelta(floorNumber - basePrice, basePrice)}
+        summary={t("tooltipBelowAnchor", {
+          value: formatEthDeltaMagnitude(floorNumber - basePrice),
+        })}
+      />
+    ) : undefined;
+  const middleBandTooltip =
+    floorNumber != null && middleNumber != null ? (
+      <BandTooltip
+        title={t("tooltipMidpoint")}
+        leftLabel={t("floor")}
+        leftValue={`${floorValue} ETH`}
+        rightLabel={t("middle")}
+        rightValue={`${middleValue} ETH`}
+        deltaLabel={t("tooltipFromFloor", {
+          value: formatEthDeltaMagnitude(middleNumber - floorNumber),
+        })}
+        deltaValue={formatPercentDelta(middleNumber - floorNumber, floorNumber)}
+        summary={t("tooltipNotTradePrice")}
+      />
+    ) : undefined;
+  const ceilingBandTooltip =
+    middleNumber != null && ceilingNumber != null ? (
+      <BandTooltip
+        title={t("tooltipBuyPremium")}
+        leftLabel={t("middle")}
+        leftValue={`${middleValue} ETH`}
+        rightLabel={t("ceiling")}
+        rightValue={`${ceilingValue} ETH`}
+        deltaLabel={t("tooltipFromMidpoint", {
+          value: formatEthDeltaMagnitude(ceilingNumber - middleNumber),
+        })}
+        deltaValue={formatPercentDelta(
+          ceilingNumber - middleNumber,
+          middleNumber,
+        )}
+        summary={`${t("tooltipSellNow")}: ${floorValue} ETH. ${t("tooltipBuyNow")}: ${ceilingValue} ETH.`}
+      />
+    ) : undefined;
 
   return (
     <section className="flex flex-col gap-2">
@@ -113,55 +174,33 @@ export function ContractStats({ state }: ContractStatsProps) {
               id: "eth",
               label: "ETH",
               value: basePrice,
-              position: basePosition,
-              tickClassName: "bg-slate-700",
+              bandAfterClassName: "bg-slate-400/50",
+              bandAfterTooltip: floorBandTooltip,
             },
             {
               id: "floor",
               label: t("floor"),
               value: floorValue,
-              position: floorPosition,
               labelClassName: "text-red-700",
               valueClassName: "text-red-700",
-              tickClassName: "bg-red-700",
+              bandAfterClassName: "bg-red-500/45",
+              bandAfterTooltip: middleBandTooltip,
             },
             {
               id: "middle",
-              label: "middle",
+              label: t("middle"),
               value: middleValue,
-              position: middlePosition,
               labelClassName: "text-amber-700",
               valueClassName: "text-amber-700",
-              tickClassName: "bg-amber-700",
+              bandAfterClassName: "bg-green-600/40",
+              bandAfterTooltip: ceilingBandTooltip,
             },
             {
               id: "ceiling",
               label: t("ceiling"),
               value: ceilingValue,
-              position: ceilingPosition,
               labelClassName: "text-green-700",
               valueClassName: "text-green-700",
-              tickClassName: "bg-green-700",
-            },
-          ]}
-          bands={[
-            {
-              id: "eth-floor",
-              start: basePosition,
-              end: floorPosition,
-              className: "bg-slate-400/50",
-            },
-            {
-              id: "floor-middle",
-              start: floorPosition,
-              end: middlePosition,
-              className: "bg-slate-400/50",
-            },
-            {
-              id: "middle-ceiling",
-              start: middlePosition,
-              end: ceilingPosition,
-              className: "bg-slate-400/50",
             },
           ]}
         />

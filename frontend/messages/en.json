@@ -1,6 +1,26 @@
 {
   "Header": {
-    "tagline": "Dynamic price token"
+    "tagline": "Dynamic price token",
+    "home": "Home",
+    "analytics": "Analytics"
+  },
+  "Analytics": {
+    "title": "Analytics",
+    "subtitle": "Live holder balances rebuilt from on-chain Transfer events.",
+    "distributionTitle": "Holder distribution",
+    "distributionSubtitle": "Width is proportional to share of total supply.",
+    "holdersTitle": "All holders",
+    "holdersCount": "{count} holders",
+    "totalSupply": "Tracked supply",
+    "loading": "Loading holders\u2026",
+    "empty": "No holders found yet.",
+    "rank": "#",
+    "address": "Address",
+    "holder": "Holder",
+    "balance": "Balance",
+    "ethValue": "ETH value",
+    "share": "Share",
+    "unrealizedPnl": "Unrealized PnL"
   },
   "ContractStats": {
     "floor": "Floor",
@@ -13,7 +33,20 @@
     "nextUpdate": "Next update",
     "block": "Block",
     "now": "now",
-    "blocks": "blocks"
+    "blocks": "blocks",
+    "tooltipSellFloor": "Current sell floor",
+    "tooltipMidpoint": "Reference midpoint",
+    "tooltipBuyPremium": "Current buy premium",
+    "tooltipAnchorDelta": "{value} vs ETH anchor",
+    "tooltipFromFloor": "{value} from floor",
+    "tooltipFromMidpoint": "{value} from midpoint",
+    "tooltipBelowAnchor": "{value} below 1 ETH",
+    "tooltipAboveFloor": "{value} above floor",
+    "tooltipAboveMidpoint": "{value} above midpoint",
+    "tooltipNotTradePrice": "Reference point, not a trade price",
+    "tooltipSellNow": "Sell now",
+    "tooltipMidpointValue": "Midpoint",
+    "tooltipBuyNow": "Buy now"
   },
   "UserPosition": {
     "title": "Your position",

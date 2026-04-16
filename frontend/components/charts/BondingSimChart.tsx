@@ -18,6 +18,13 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "../ui/chart";
+import {
+  CHART_GRID_COLOR,
+  CHART_SUBTLE_COLOR,
+  CHART_TICK_STYLE,
+  TOOLTIP_BACKGROUND,
+  TOOLTIP_BORDER,
+} from "./colors";
 
 interface SimPoint {
   buyers: number;
@@ -77,8 +84,8 @@ function simulate(
 
 function fmt(v: number) {
   if (v === 0) return "0";
-  if (v >= 1) return v.toFixed(3);
-  return v.toPrecision(3);
+  if (v >= 1) return v.toFixed(2);
+  return v.toPrecision(2);
 }
 
 function sliderStyle(fillPercent: number): CSSProperties {
@@ -158,25 +165,25 @@ export function BondingSimChart({ state }: Props) {
               margin={{ top: 4, right: 4, bottom: 16, left: 0 }}
             >
               <CartesianGrid
-                stroke="#e2e8f0"
+                stroke={CHART_GRID_COLOR}
                 strokeDasharray="4 4"
                 vertical={false}
               />
               <XAxis
                 dataKey="buyers"
-                tick={{ fill: "#64748b", fontSize: 11 }}
+                tick={CHART_TICK_STYLE}
                 tickLine={false}
                 axisLine={false}
                 label={{
                   value: t("buyersAxisLabel"),
                   position: "insideBottomRight",
                   offset: -4,
-                  fill: "#64748b",
+                  fill: CHART_TICK_STYLE.fill,
                   fontSize: 11,
                 }}
               />
               <YAxis
-                tick={{ fill: "#64748b", fontSize: 11 }}
+                tick={CHART_TICK_STYLE}
                 tickLine={false}
                 axisLine={false}
                 tickFormatter={fmt}
@@ -185,10 +192,10 @@ export function BondingSimChart({ state }: Props) {
               />
               <Tooltip
                 wrapperStyle={{
-                  background: "rgb(255 255 255 / 0.30)",
+                  background: TOOLTIP_BACKGROUND,
                   backdropFilter: "blur(8px)",
                   WebkitBackdropFilter: "blur(8px)",
-                  border: "1px solid rgb(255 255 255 / 0.5)",
+                  border: TOOLTIP_BORDER,
                   borderRadius: "12px",
                   padding: "0.5rem",
                 }}
@@ -205,11 +212,11 @@ export function BondingSimChart({ state }: Props) {
               />
               <ReferenceLine
                 y={costBasis}
-                stroke="#94a3b8"
+                stroke={CHART_SUBTLE_COLOR}
                 strokeDasharray="6 3"
                 label={{
                   value: t("yourCost"),
-                  fill: "#94a3b8",
+                  fill: CHART_SUBTLE_COLOR,
                   fontSize: 10,
                   position: "insideTopLeft",
                 }}
