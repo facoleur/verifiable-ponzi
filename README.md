@@ -26,6 +26,12 @@ This project is an experiment, not a financial product, investment vehicle, or v
 
 ## Run Locally
 
+Install Foundry dependencies:
+
+```bash
+forge install
+```
+
 Start a local chain, deploy the contract, and seed a scenario:
 
 ```bash

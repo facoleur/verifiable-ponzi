@@ -16,7 +16,7 @@ export default function Home() {
       <Header />
       <main className="mx-auto grid w-full max-w-275 flex-1 grid-cols-[1fr_400px] items-start gap-8 px-6 pb-16 max-[820px]:grid-cols-1 max-[820px]:px-4 max-[820px]:pb-12">
         <div className="flex flex-col gap-2">
-          <ContractStats state={state} />
+          <ContractSwtats state={state} />
           <UserPosition state={state} />
           <ChartsSection state={state} />
         </div>
